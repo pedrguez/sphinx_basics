@@ -1,0 +1,24 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main  # o master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Documentation
+        run: |
+          npm install  # Si usas Node.js
+          npm run docs:build # O el comando de tu herramienta
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs # Reemplaza con la carpeta de tu documentación, como 'docs', 'dist' o 'build'
